@@ -1,0 +1,25 @@
+# Build output
+*.o
+*.obj
+*.exe
+*.out
+a.out
+analyzer
+y.tab.c
+y.tab.h
+y.output
+lex.yy.c
+
+# Logs written by the programs
+24241257_log.txt
+24241257_error.txt
+log.txt
+
+# Archives
+*.zip
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
