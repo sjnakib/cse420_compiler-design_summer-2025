@@ -1,17 +1,18 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-yacc -d -y --debug --verbose 24241257.y
-echo 'Generated the parser C file as well the header file'
-g++ -w -c -o y.o y.tab.c
-echo 'Generated the parser object file'
+cd "$(dirname "$0")"
+
+input="${1:-../samples/input.c}"
+
+rm -f y.tab.c y.tab.h y.output lex.yy.c y.o l.o analyzer analyzer.exe log.txt
+
+bison -d -y 24241257.y
 flex 24241257.l
-echo 'Generated the scanner C file'
+g++ -w -c -o y.o y.tab.c
 g++ -fpermissive -w -c -o l.o lex.yy.c
-# if the above command doesn't work try g++ -fpermissive -w -c -o l.o lex.yy.c
-echo 'Generated the scanner object file'
-# g++ y.o l.o -o a.exe
-g++ y.o l.o
-echo 'All ready, running'
-./a.exe input.c
-echo 'logfile'
-cat log.txt
+g++ y.o l.o -o analyzer
+
+./analyzer "$input"
+
+printf '\nLog file: %s\n' "$(pwd)/log.txt"
